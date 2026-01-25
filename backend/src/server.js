@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
-import { error } from "console";
+import equipmentRoutes from "./routes/equipmentRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/equipments", equipmentRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err);

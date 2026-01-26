@@ -13,10 +13,8 @@ const Sidebar = () => {
 
     if (loading) {
       toastId = toast.loading("Loading user...");
-    }
-
-    if (!loading) {
-      toast.dismiss(); // closes loading toast
+    } else {
+      toast.dismiss(); // close all toasts
     }
 
     return () => {
@@ -49,8 +47,14 @@ const Sidebar = () => {
     { name: "Preventive", path: "/preventive" },
   ];
 
-  const menu =
-    role === "admin" ? adminMenu : role === "manager" ? managerMenu : technicianMenu;
+  // ✅ FIXED MENU LOGIC (No wrong menu before role loads)
+  let menu = [];
+
+  if (!loading) {
+    if (role === "admin") menu = adminMenu;
+    else if (role === "manager") menu = managerMenu;
+    else menu = technicianMenu;
+  }
 
   return (
     <div className={style.sidebar}>
@@ -58,24 +62,29 @@ const Sidebar = () => {
 
       <div className={style.userBox}>
         <p className={style.username}>
-          {loading ? "Loading..." : user?.name}
+          {loading ? "Loading..." : user?.name || "No User"}
         </p>
-        <span className={style.role}>{role}</span>
+        <span className={style.role}>
+          {loading ? "Loading..." : role || "No Role"}
+        </span>
       </div>
 
-
       <div className={style.nav}>
-        {menu.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              isActive ? `${style.link} ${style.active}` : style.link
-            }
-          >
-            {item.name}
-          </NavLink>
-        ))}
+        {loading ? (
+          <p style={{ padding: "10px" }}>Loading menu...</p>
+        ) : (
+          menu.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                isActive ? `${style.link} ${style.active}` : style.link
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))
+        )}
       </div>
     </div>
   );

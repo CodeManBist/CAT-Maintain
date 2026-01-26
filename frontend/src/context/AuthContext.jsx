@@ -9,25 +9,11 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchMe = async () => {
-    const toastId = toast.loading("Loading user...");
-
     try {
       const res = await axiosInstance.get("/auth/me");
       setUser(res.data);
-      toast.update(toastId, {
-        render: "Welcome back ✅",
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-      });
     } catch (err) {
       setUser(null);
-      toast.update(toastId, {
-        render: "Session expired. Please login ❌",
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-      });
     } finally {
       setLoading(false);
     }
@@ -37,8 +23,14 @@ export const AuthProvider = ({ children }) => {
     fetchMe();
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading, fetchMe, logout }}>
       {children}
     </AuthContext.Provider>
   );

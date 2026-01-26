@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axiosInstance from "../../api/axiosInstance.js";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styles from "./Auth.module.css";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { fetchMe } = useContext(AuthContext); // ✅ use fetchMe
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if(!email || !password) {
+    if (!email || !password) {
       return toast.error("Please fill in all fields");
     }
 
@@ -22,10 +24,13 @@ const Login = () => {
 
       localStorage.setItem("token", res.data.token);
 
+      // ✅ MOST IMPORTANT
+      await fetchMe(); // ✅ fetch user again using token
+
       toast.success("Login successful");
       navigate("/dashboard");
     } catch (err) {
-      toast.error("Login failed Check email/password");
+      toast.error("Login failed. Check email/password");
     }
   };
 
@@ -54,15 +59,13 @@ const Login = () => {
           Login
         </button>
       </form>
+
       <p className={styles.text}>
-          Don’t have an account? 
-            <Link 
-              className={styles.link}
-              to="/register" 
-            >
-              Register
-            </Link>
-        </p>
+        Don’t have an account?
+        <Link className={styles.link} to="/register">
+          Register
+        </Link>
+      </p>
     </div>
   );
 };

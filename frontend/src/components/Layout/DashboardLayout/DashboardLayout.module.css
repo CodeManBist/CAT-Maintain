@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: #0b1220; /* ✅ overall base dark */
+}
+
+.sidebar {
+  flex: 0 0 18%;
+  height: 100vh;
+  background: #0f172a; /* ✅ your sidebar */
+  color: #fff;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.main {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0b1220; /* ✅ matches sidebar vibe */
+}
+
+.topbar {
+  height: 60px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03); /* ✅ premium glass look */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  color: #e2e8f0;
+  backdrop-filter: blur(10px);
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #0b1220; /* ✅ same base */
+  color: #e2e8f0;
+}

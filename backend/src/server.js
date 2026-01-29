@@ -5,8 +5,10 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
+
 import authRoutes from "./routes/authRoutes.js";
 import equipmentRoutes from "./routes/equipmentRoutes.js";
+import workOrderRoutes from "./routes/workOrderRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/equipments", equipmentRoutes);
+app.use("/api/workorders", workOrderRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err);

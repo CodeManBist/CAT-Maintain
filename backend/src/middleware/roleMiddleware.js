@@ -6,3 +6,16 @@ export const adminOnly = (req, res, next) => {
 
     return res.status(403).json({ message: "Admin access required" });  
 };
+
+export const adminOrManager = (req, res, next) => {
+  if (
+    req.user &&
+    (req.user.role === "admin" || req.user.role === "manager")
+  ) {
+    return next();
+  }
+
+  return res.status(403).json({
+    message: "Admin or Manager access required"
+  });
+};

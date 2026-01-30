@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/index.jsx";
 import Equipments from "./pages/Equipments/Equipments.jsx";
 import EquipmentDetails from "./pages/Equipments/EquipmentDetails.jsx";
+import MyWorkOrder from "./pages/Work_Orders/MyWorkOrder.jsx";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,6 +43,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <EquipmentDetails />
+              </ProtectedRoute>
+            }
+            />
+          <Route
+            path="/workorders"
+            element={
+              <ProtectedRoute>
+                <MyWorkOrder />
               </ProtectedRoute>
             }
             />

@@ -6,6 +6,9 @@ import ProtectedRoute from "./components/ProtectedRoute/index.jsx";
 import Equipments from "./pages/Equipments/Equipments.jsx";
 import EquipmentDetails from "./pages/Equipments/EquipmentDetails.jsx";
 import MyWorkOrder from "./pages/Work_Orders/MyWorkOrder.jsx";
+import WorkOrders from "./pages/Work_Orders/WorkOrders.jsx";
+import CreateWorkOrder from "./pages/Work_Orders/CreateWorkOrder.jsx";
+import WorkOrderDetails from "./pages/Work_Orders/WorkOrderDetails.jsx";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,11 +52,36 @@ function App() {
           <Route
             path="/workorders"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute roles={["admin", "manager"]}>
+                <WorkOrders />
+              </ProtectedRoute>
+            }
+            />
+          <Route
+            path="/my-workorders"
+            element={
+              <ProtectedRoute roles={["technician"]}>
                 <MyWorkOrder />
               </ProtectedRoute>
             }
             />
+          <Route
+            path="/workorders/create"
+            element={
+              <ProtectedRoute roles={["admin", "manager"]}>
+                <CreateWorkOrder />
+              </ProtectedRoute>
+            }
+            />
+          <Route
+            path="/workorders/:id"
+            element={
+              <ProtectedRoute roles={["admin", "manager", "technician"]}>
+                <WorkOrderDetails />
+              </ProtectedRoute>
+            }
+            />
+
         </Routes>
 
         <ToastContainer position="top-right" autoClose={2000} />

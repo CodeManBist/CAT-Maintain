@@ -1,11 +1,18 @@
 import WorkOrder from "../models/WorkOrder.js";
 
 export const createWorkOrder = async (req, res) => {
-    const { equipmentId, isissueType, priority, assignedTo, description, estimatedCost } = req.body;
+    const { 
+        equipmentId, 
+        issueType, 
+        priority, 
+        assignedTo, 
+        description, 
+        estimatedCost 
+    } = req.body;
 
     const workOrder = await WorkOrder.create({
         equipmentId,
-        isissueType,
+        issueType,
         priority,
         assignedTo,
         description,
@@ -23,7 +30,7 @@ export const getWorkOrders = async (req, res) => {
     }
 
     const workOrders = await WorkOrder.find(query)
-        .populate("equipmentId", "name, serialNumber")
+        .populate("equipmentId", "name serialNumber")
         .populate("assignedTo", "name email");
 
     res.json(workOrders);

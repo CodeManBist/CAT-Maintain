@@ -47,7 +47,6 @@ const Sidebar = () => {
     { name: "Preventive", path: "/preventive" },
   ];
 
-  // ✅ FIXED MENU LOGIC (No wrong menu before role loads)
   let menu = [];
 
   if (!loading) {

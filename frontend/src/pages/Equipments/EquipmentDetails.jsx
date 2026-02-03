@@ -14,7 +14,7 @@ const EquipmentDetails = () => {
 
   const [equipment, setEquipment] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [orders, setOrders] = useState([]);
   const [openEdit, setOpenEdit] = useState(false);
 
   const fetchEquipment = async () => {
@@ -32,6 +32,10 @@ const EquipmentDetails = () => {
   useEffect(() => {
     fetchEquipment();
   }, [id]);
+
+  useEffect(() => {
+    axiosInstance.get("/workorders").then(res => setOrders(res.data));
+  }, []);
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
@@ -146,9 +150,15 @@ const EquipmentDetails = () => {
 
       {/* ✅ Actions */}
       <div className={style.actions}>
-        <button className={style.primaryBtn}>Create Work Order</button>
-
-        {user?.role === "admin" && (
+        {(user?.role === "admin" || user?.role === "manager") && (
+          <button 
+            className={style.primaryBtn}
+            onClick={() => navigate(`/workorders/create?equipmentId=${equipment._id}`)}
+          >
+            Create Work Order
+          </button>
+        )}
+        {(user?.role === "admin" || user?.role === "manager") && (
           <button
             className={style.secondaryBtn}
             onClick={() => setOpenEdit(true)}
@@ -157,7 +167,7 @@ const EquipmentDetails = () => {
           </button>
         )}
 
-        {user?.role === "admin" && (
+        {(user?.role === "admin" || user?.role === "manager") && (
           <button className={style.dangerBtn} onClick={handleDelete}>
             Delete Equipment
           </button>

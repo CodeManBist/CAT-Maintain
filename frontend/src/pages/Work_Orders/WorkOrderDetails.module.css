@@ -39,15 +39,16 @@
   outline: none;
   margin-right: 10px;
   border-radius: 4px;
+  background: #22C55E;
 }
 
 .actions button:nth-child(1) {
-  background: #2563eb;
+  background: #64748B;
   box-shadow: 0 4px 14px rgba(37,99,235,.35);
 }
 
 .actions button:nth-child(2) {
-  background: #16a34a;;
+  background: #3B82F6;;
   box-shadow: 0 4px 14px rgba(22,163,74,.35);
 }
 

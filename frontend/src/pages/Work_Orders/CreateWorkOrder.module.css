@@ -1,0 +1,70 @@
+.header {
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.header p {
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* Main form card */
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Inputs */
+.card select,
+.card input,
+.card textarea {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 12px;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+.card textarea {
+  grid-column: span 2;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.card select:focus,
+.card input:focus,
+.card textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Button */
+.card button {
+  grid-column: span 2;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.card button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

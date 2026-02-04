@@ -26,7 +26,7 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/dashboard" },
     { name: "Equipments", path: "/equipments" },
     { name: "Work Orders", path: "/workorders" },
-    { name: "Preventive", path: "/preventive" },
+    { name: "Preventive Maintenance", path: "/maintenance" },
     { name: "Users", path: "/users" },
     { name: "Reports", path: "/reports" },
     { name: "Settings", path: "/settings" },
@@ -36,7 +36,7 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/dashboard" },
     { name: "Equipments", path: "/equipments" },
     { name: "Work Orders", path: "/workorders" },
-    { name: "Preventive", path: "/preventive" },
+    { name: "Preventive Maintenance", path: "/maintenance" },
     { name: "Reports", path: "/reports" },
   ];
 
@@ -44,7 +44,7 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/dashboard" },
     { name: "My Work Orders", path: "/my-workorders" },
     { name: "Equipments", path: "/equipments" },
-    { name: "Preventive", path: "/preventive" },
+    { name: "Preventive Maintenance", path: "/maintenance" },
   ];
 
   let menu = [];

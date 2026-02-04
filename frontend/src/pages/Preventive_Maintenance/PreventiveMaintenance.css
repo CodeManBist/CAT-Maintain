@@ -1,0 +1,81 @@
+.pm_container {
+  padding: 20px;
+  color: white;
+}
+
+.pm_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pm_header button {
+  background: #222;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.pm_tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.pm_tabs button {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #1a1a1a;
+  color: #bbb;
+  cursor: pointer;
+}
+
+.pm_tabs .active {
+  background: #2c3e50;
+  color: white;
+}
+
+.pm_table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #161616;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pm_table th,
+.pm_table td {
+  padding: 12px;
+  border-bottom: 1px solid #2a2a2a;
+  text-align: left;
+}
+
+.pm_table tr:hover {
+  background: #202020;
+  cursor: pointer;
+}
+
+.pm_badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pm_badge.due {
+  background: #d4a017;
+}
+
+.pm_badge.overdue {
+  background: #c0392b;
+}
+
+.pm_loading,
+.pm_empty {
+  margin-top: 30px;
+  color: #aaa;
+}

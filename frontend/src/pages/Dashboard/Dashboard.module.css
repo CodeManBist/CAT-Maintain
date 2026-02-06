@@ -289,3 +289,27 @@
     font-size: 12px;
   }
 }
+
+/* ===== Section Titles ===== */
+.sectionTitle {
+  margin: 18px 0 10px 2px;
+  font-size: 15px;
+  font-weight: 900;
+  color: #e2e8f0;
+  letter-spacing: 0.4px;
+  opacity: 0.9;
+}
+
+/* ===== Alert Card (Overdue Maintenance) ===== */
+.alert {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.alert .cardValue {
+  color: #ef4444;
+}
+
+.alert .cardHint {
+  color: #fca5a5;
+}

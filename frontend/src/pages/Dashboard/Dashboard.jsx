@@ -9,9 +9,15 @@ import { toast } from "react-toastify";
 const Dashboard = () => {
   const { user, loading } = useContext(AuthContext);
 
+  // equipment state
   const [equipments, setEquipments] = useState([]);
   const [eqLoading, setEqLoading] = useState(true);
 
+  // 🔥 new summary state
+  const [summary, setSummary] = useState(null);
+  const [summaryLoading, setSummaryLoading] = useState(true);
+
+  // ---------------- EQUIPMENT FETCH ----------------
   const getEquipments = async () => {
     try {
       const res = await axiosInstance.get("/equipments");
@@ -24,14 +30,27 @@ const Dashboard = () => {
     }
   };
 
+  // ---------------- DASHBOARD SUMMARY FETCH ----------------
+  const getSummary = async () => {
+    try {
+      const res = await axiosInstance.get("/dashboard/summary");
+      setSummary(res.data);
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to load dashboard summary");
+    } finally {
+      setSummaryLoading(false);
+    }
+  };
+
   useEffect(() => {
     getEquipments();
+    getSummary();
   }, []);
 
-  // ✅ KPI calculations
+  // ---------------- EQUIPMENT KPI CALCULATION ----------------
   const stats = useMemo(() => {
     const total = equipments.length;
-
     const active = equipments.filter((e) => e.status === "active").length;
     const maintenance = equipments.filter((e) => e.status === "maintenance").length;
     const breakdown = equipments.filter((e) => e.status === "breakdown").length;
@@ -41,13 +60,15 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      {/* ✅ Header */}
+      {/* HEADER */}
       <div className={style.header}>
         <div>
           <h2 className={style.title}>
             {loading ? "Loading..." : `Welcome, ${user?.name} 👋`}
           </h2>
-          <p className={style.subtitle}>Here’s what’s happening in your system today</p>
+          <p className={style.subtitle}>
+            Here’s what’s happening in your system today
+          </p>
         </div>
 
         <div className={style.roleBox}>
@@ -56,7 +77,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ✅ KPI Cards */}
+      {/* ---------------- EQUIPMENT HEALTH ---------------- */}
+      <h3 className={style.sectionTitle}>Asset Health</h3>
       <div className={style.cards}>
         <div className={style.card}>
           <p className={style.cardLabel}>Total Equipments</p>
@@ -83,9 +105,44 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ✅ Grid Section */}
+      {/* ---------------- OPERATIONS OVERVIEW (NEW 🔥) ---------------- */}
+      <h3 className={style.sectionTitle}>Operations Overview</h3>
+      <div className={style.cards}>
+        <div className={style.card}>
+          <p className={style.cardLabel}>Open Work Orders</p>
+          <h3 className={style.cardValue}>
+            {summaryLoading ? "--" : summary?.openWorkOrders}
+          </h3>
+          <p className={style.cardHint}>Pending tasks</p>
+        </div>
+
+        <div className={style.card}>
+          <p className={style.cardLabel}>In Progress</p>
+          <h3 className={style.cardValue}>
+            {summaryLoading ? "--" : summary?.inProgressWorkOrders}
+          </h3>
+          <p className={style.cardHint}>Currently being fixed</p>
+        </div>
+
+        <div className={style.card}>
+          <p className={style.cardLabel}>Completed This Month</p>
+          <h3 className={style.cardValue}>
+            {summaryLoading ? "--" : summary?.completedThisMonth}
+          </h3>
+          <p className={style.cardHint}>Work efficiency</p>
+        </div>
+
+        <div className={`${style.card} ${style.alert}`}>
+          <p className={style.cardLabel}>Overdue Maintenance</p>
+          <h3 className={style.cardValue}>
+            {summaryLoading ? "--" : summary?.overdueMaintenance}
+          </h3>
+          <p className={style.cardHint}>Needs urgent attention</p>
+        </div>
+      </div>
+
+      {/* ---------------- QUICK ACTIONS + STATUS ---------------- */}
       <div className={style.grid}>
-        {/* ✅ Quick Actions */}
         <div className={style.panel}>
           <div className={style.panelTop}>
             <h3 className={style.panelTitle}>Quick Actions</h3>
@@ -100,7 +157,7 @@ const Dashboard = () => {
               Create Work Order →
             </Link>
 
-            <Link to="/preventive" className={style.actionBtn}>
+            <Link to="/maintenance" className={style.actionBtn}>
               PM Schedule →
             </Link>
 
@@ -111,85 +168,6 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-
-        {/* ✅ Equipment Status Summary */}
-        <div className={style.panel}>
-          <div className={style.panelTop}>
-            <h3 className={style.panelTitle}>Equipment Status</h3>
-          </div>
-
-          <div className={style.statusList}>
-            <div className={style.statusRow}>
-              <span className={`${style.dot} ${style.dotActive}`} />
-              <p className={style.statusText}>Active</p>
-              <span className={style.statusCount}>{eqLoading ? "--" : stats.active}</span>
-            </div>
-
-            <div className={style.statusRow}>
-              <span className={`${style.dot} ${style.dotMaintenance}`} />
-              <p className={style.statusText}>Maintenance</p>
-              <span className={style.statusCount}>
-                {eqLoading ? "--" : stats.maintenance}
-              </span>
-            </div>
-
-            <div className={style.statusRow}>
-              <span className={`${style.dot} ${style.dotBreakdown}`} />
-              <p className={style.statusText}>Breakdown</p>
-              <span className={style.statusCount}>
-                {eqLoading ? "--" : stats.breakdown}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ✅ Recent Equipments (mini list) */}
-      <div className={style.panelBig}>
-        <div className={style.panelTop}>
-          <h3 className={style.panelTitle}>Recent Equipments</h3>
-          <Link className={style.viewAll} to="/equipments">
-            View All
-          </Link>
-        </div>
-
-        {eqLoading ? (
-          <p className={style.loadingText}>Loading equipments...</p>
-        ) : equipments.length === 0 ? (
-          <p className={style.loadingText}>No equipments found</p>
-        ) : (
-          <div className={style.table}>
-            <div className={style.tableHead}>
-              <p>Name</p>
-              <p>Location</p>
-              <p>Status</p>
-              <p>Hours</p>
-            </div>
-
-            {equipments.slice(0, 5).map((eq) => (
-              <div key={eq._id} className={style.tableRow}>
-                <p className={style.cellBold}>{eq.name}</p>
-                <p>{eq.location}</p>
-
-                <p>
-                  <span
-                    className={`${style.badge} ${
-                      eq.status === "active"
-                        ? style.badgeActive
-                        : eq.status === "maintenance"
-                        ? style.badgeMaintenance
-                        : style.badgeBreakdown
-                    }`}
-                  >
-                    {eq.status}
-                  </span>
-                </p>
-
-                <p>{eq.runningHours} hrs</p>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </DashboardLayout>
   );

@@ -14,6 +14,7 @@ import PreventiveMaintenance  from "./pages/Preventive_Maintenance/PreventiveMai
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import Users from "./pages/Users/Users.jsx";
 
 function App() {
   return (
@@ -88,6 +89,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PreventiveMaintenance />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute>
+                  <Users />
                 </ProtectedRoute>
               }
             />

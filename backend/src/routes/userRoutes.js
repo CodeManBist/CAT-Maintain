@@ -1,13 +1,12 @@
 import express from "express";
-import { getUsers } from "../controllers/userController.js";
+import { getUsers, updateUserRole, deleteUser } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
-import { adminOrManager } from "../middleware/roleMiddleware.js";
+import { adminOnly } from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", protect, adminOrManager, (req, res, next) => {
-    console.log("USER ROUTE HIT BY:", req.user.role);
-    next();
-}, getUsers);
+router.get("/", protect, adminOnly, getUsers);
+router.put("/:id/role", protect, adminOnly, updateUserRole);
+router.delete("/:id", protect, adminOnly, deleteUser);
 
 export default router;

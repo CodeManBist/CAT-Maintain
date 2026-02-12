@@ -30,7 +30,10 @@ const Login = () => {
       toast.success("Login successful");
       navigate("/dashboard");
     } catch (err) {
-      toast.error("Login failed. Check email/password");
+      const message = 
+        err.response?.data?.message || "Login failed. Check email/password";
+
+      toast.error(message);
     }
   };
 

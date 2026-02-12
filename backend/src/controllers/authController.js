@@ -3,9 +3,9 @@ import generateToken from "../utils/generateToken.js";
 
 
 export const registerUser = async (req, res) => {
-    console.log(req.body);
 
-    const { name, username, email, password, role } = req.body;
+    const { name, username, password, role } = req.body;
+    const email = req.body.email.toLowerCase();
 
     const userExists = await User.findOne({ email });
 
@@ -32,19 +32,29 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-    const { email, password } = req.body;
+    const email = req.body.email.toLowerCase();
+    const { password } = req.body;
 
     const user = await User.findOne({ email }).select("+password");
 
-    if(!user) {
+    if (!user) {
         return res.status(401).json({ message: "Invalid Credentials" });
+    }
+
+    // Soft delete protection
+    if (user.isActive === false) {
+        return res.status(403).json({
+            message: "Account is deactivated. Contact admin."
+        });
     }
 
     const isMatch = await user.matchPassword(password);
 
-    if(!isMatch) {
+    if (!isMatch) {
         return res.status(401).json({ message: "Invalid Credentials" });
     }
+
+    user.password = undefined;
 
     res.json({
         _id: user._id,
@@ -54,6 +64,7 @@ export const loginUser = async (req, res) => {
         token: generateToken(user._id)
     });
 };
+
 
 export const getMe = async (req, res) => {
     res.json(req.user);

@@ -10,6 +10,7 @@ import WorkOrders from "./pages/Work_Orders/WorkOrders.jsx";
 import CreateWorkOrder from "./pages/Work_Orders/CreateWorkOrder.jsx";
 import WorkOrderDetails from "./pages/Work_Orders/WorkOrderDetails.jsx";
 import PreventiveMaintenance  from "./pages/Preventive_Maintenance/PreventiveMaintenance.jsx"
+import Reports from "./pages/Reports/Reports";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -98,6 +99,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Users />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <ProtectedRoute>
+                  <Reports />
                 </ProtectedRoute>
               }
             />
